@@ -13,6 +13,6 @@ app.get('/other', (req, res) => {
   res.send('Hello World! other');
 });
 
-app.listen(3001, () => {
+app.listen(process.env.PORT || 3001, () => {
   console.log(`Server running on 3001`);
 });
