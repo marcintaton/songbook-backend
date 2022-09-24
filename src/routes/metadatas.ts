@@ -1,16 +1,16 @@
 import { Router, Request, Response } from 'express';
-import Song from '@src/models/songs';
+import Metadata from '@src/models/metadatas';
 
 const router = Router();
 
 router.get('/', async (req: Request, res: Response) => {
-  const songs = await Song.find();
-  res.status(200).send(songs);
+  const metadata = await Metadata.find();
+  res.status(200).send(metadata);
 });
 
 router.get('/:id', async (req: Request, res: Response) => {
-  const song = await Song.find({ songID: req.params.id });
-  res.status(200).send(song);
+  const metadata = await Metadata.find({ _id: req.params.id });
+  res.status(200).send(metadata);
 });
 
 export default router;
