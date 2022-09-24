@@ -9,7 +9,7 @@ router.get('/', async (req: Request, res: Response) => {
 });
 
 router.get('/:id', async (req: Request, res: Response) => {
-  const metadata = await Metadata.find({ _id: req.params.id });
+  const metadata = await Metadata.findOne({ _id: req.params.id });
   res.status(200).send(metadata);
 });
 

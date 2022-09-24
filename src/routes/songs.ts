@@ -9,7 +9,7 @@ router.get('/', async (req: Request, res: Response) => {
 });
 
 router.get('/:id', async (req: Request, res: Response) => {
-  const song = await Song.find({ songID: req.params.id });
+  const song = await Song.findOne({ songID: req.params.id });
   res.status(200).send(song);
 });
 
