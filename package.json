@@ -18,8 +18,11 @@
   "license": "ISC",
   "dependencies": {
     "config": "^3.3.6",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.2",
     "express": "^4.17.2",
+    "helmet": "^6.0.0",
+    "helmet-csp": "^3.4.0",
     "mongoose": "^6.6.1",
     "morgan": "^1.10.0",
     "tsconfig-replace-paths": "^0.0.11"

@@ -1,5 +1,6 @@
 import * as dotenv from 'dotenv';
 import express from 'express';
+import helmet, { contentSecurityPolicy } from 'helmet';
 import mongoose from 'mongoose';
 
 dotenv.config();
@@ -21,6 +22,36 @@ const Song = mongoose.model('songs', songSchema);
 const db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
+// app.use(
+//   // cors()
+//   cors({
+//     origin: dotenv.config.get('cors.origin'),
+//     credentials: true,
+//   })
+// );
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+  // helmet.contentSecurityPolicy({
+  //   directives: {
+  //     defaultSrc: ['*'],
+  //   },
+  // })
+);
+app.use(
+  contentSecurityPolicy({
+    useDefaults: true,
+    directives: {
+      defaultSrc: [
+        `https://localhost:*`,
+        `'self'`,
+        `https://oazaspiewnik.netlify.app/*`,
+      ],
+    },
+  })
+);
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
