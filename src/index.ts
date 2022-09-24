@@ -27,7 +27,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 app.use(
   // cors()
   cors({
-    origin: ['https://oazaspiewnik.netlify.app/*', '*'],
+    origin: ['https://oazaspiewnik.netlify.app'],
     credentials: true,
   })
 );
