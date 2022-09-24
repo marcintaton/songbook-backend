@@ -2,6 +2,7 @@ import * as dotenv from 'dotenv';
 import express from 'express';
 import helmet, { contentSecurityPolicy } from 'helmet';
 import mongoose from 'mongoose';
+import cors from 'cors';
 
 dotenv.config();
 
@@ -23,13 +24,13 @@ const db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-// app.use(
-//   // cors()
-//   cors({
-//     origin: dotenv.config.get('cors.origin'),
-//     credentials: true,
-//   })
-// );
+app.use(
+  // cors()
+  cors({
+    origin: 'https://oazaspiewnik.netlify.app/',
+    credentials: true,
+  })
+);
 app.use(
   helmet({
     contentSecurityPolicy: false,
