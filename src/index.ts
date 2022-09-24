@@ -1,68 +1,22 @@
 import * as dotenv from 'dotenv';
 import express from 'express';
-import helmet, { contentSecurityPolicy } from 'helmet';
-import mongoose from 'mongoose';
-import cors from 'cors';
+import setupAppRoutes from './startup/appRoutes';
+import setupDB from './startup/db';
+import setupErrorHandling from './startup/errorHandling';
+import setupLogging from './startup/logging';
+import setupMiddleware from './startup/middleware';
 
 dotenv.config();
 
-const app = express();
+const server = express();
 
-mongoose.connect(
-  `mongodb+srv://admin:${process.env.DB_PASSWORD}@songbook.s3sbnxb.mongodb.net/?retryWrites=true&w=majority`,
-  { dbName: 'songbook' }
-);
+setupDB();
 
-const songSchema = new mongoose.Schema({
-  title: String,
-});
+setupLogging(server);
+setupMiddleware(server);
+setupAppRoutes(server);
+setupErrorHandling(server);
 
-const Song = mongoose.model('songs', songSchema);
-
-// Get the default connection
-const db = mongoose.connection;
-
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
-app.use(
-  // cors()
-  cors({
-    origin: ['https://oazaspiewnik.netlify.app', 'http://localhost:6001'],
-    credentials: true,
-  })
-);
-app.use(
-  helmet({
-    contentSecurityPolicy: false,
-  })
-  // helmet.contentSecurityPolicy({
-  //   directives: {
-  //     defaultSrc: ['*'],
-  //   },
-  // })
-);
-app.use(
-  contentSecurityPolicy({
-    useDefaults: true,
-    directives: {
-      defaultSrc: [
-        `https://localhost:*`,
-        `'self'`,
-        `https://oazaspiewnik.netlify.app/*`,
-      ],
-    },
-  })
-);
-
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
-
-app.get('/other', async (req, res) => {
-  const response = await Song.find({});
-  res.send(response);
-});
-
-app.listen(process.env.PORT || 3001, () => {
+server.listen(process.env.PORT || 3001, () => {
   console.log(`Server running`);
 });
