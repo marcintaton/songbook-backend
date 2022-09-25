@@ -1,7 +1,8 @@
 import mongoose, { Schema } from 'mongoose';
 
 const songSchema = new Schema({
-  songID: String,
+  title: String,
+  tags: Array,
   lyrics: String,
 });
 
