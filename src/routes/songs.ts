@@ -27,7 +27,22 @@ router.get('/metadata/all', async (req: Request, res: Response) => {
 
 router.get('/:id', async (req: Request, res: Response) => {
   const song = await Song.findOne({ _id: req.params.id });
-  res.status(200).send(song);
+  const tags = await Tag.find();
+
+  if (!song) {
+    res.status(400).send('No such song');
+    return;
+  }
+
+  const songWithTags = {
+    ...song.toObject(),
+    tags: song.tags.map(
+      // eslint-disable-next-line no-underscore-dangle
+      (tag) => tags.find((x) => x._id.toHexString() === tag)?.name
+    ),
+  };
+
+  res.status(200).send(songWithTags);
 });
 
 export default router;
