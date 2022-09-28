@@ -1,6 +1,9 @@
 import { Router, Request, Response } from 'express';
+import argon2 from 'argon2';
 import Song from '@src/models/songs';
 import Tag from '@src/models/tags';
+import Joi from 'joi';
+import { schemaPOST } from '@src/validation/songVlidation';
 
 const router = Router();
 
@@ -43,6 +46,48 @@ router.get('/:id', async (req: Request, res: Response) => {
   };
 
   res.status(200).send(songWithTags);
+});
+
+router.post('/', async (req: Request, res: Response) => {
+  const data = req.body;
+
+  if (process.env.FORM_PASSWORD === undefined) {
+    res.status(500).send('Server could not validate password');
+    return;
+  }
+
+  const isPwdValid = await argon2.verify(
+    process.env.FORM_PASSWORD,
+    data.password
+  );
+
+  if (!isPwdValid) {
+    res.status(401).send('Invalid Password');
+    return;
+  }
+
+  const song = {
+    title: data.title,
+    tags: data.tags,
+    lyrics: data.lyrics,
+  };
+
+  const joiResult = schemaPOST.validate(song);
+
+  if (joiResult.error) {
+    res.status(400).send('Invalid data');
+    return;
+  }
+
+  try {
+    await Song.create(song);
+    res.status(200).send('Success');
+  } catch (e) {
+    res.status(500).json({
+      ok: false,
+      message: 'Database failed to create Song',
+    });
+  }
 });
 
 export default router;
