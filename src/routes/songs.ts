@@ -2,7 +2,6 @@ import { Router, Request, Response } from 'express';
 import argon2 from 'argon2';
 import Song from '@src/models/songs';
 import Tag from '@src/models/tags';
-import Joi from 'joi';
 import { schemaPOST } from '@src/validation/songVlidation';
 
 const router = Router();
@@ -70,6 +69,8 @@ router.post('/', async (req: Request, res: Response) => {
     title: data.title,
     tags: data.tags,
     lyrics: data.lyrics,
+    notes: data.notes,
+    credits: data.credits,
   };
 
   const joiResult = schemaPOST.validate(song);

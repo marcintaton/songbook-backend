@@ -5,4 +5,6 @@ export const schemaPOST = Joi.object({
   title: Joi.string().required().min(1),
   tags: Joi.array().items(Joi.string()).required().min(1),
   lyrics: Joi.string().required(),
+  notes: Joi.string().optional(),
+  credits: Joi.string().optional(),
 });
