@@ -74,6 +74,18 @@ router.post(
   }
 );
 
+router.post('/selected', async (req: Request, res: Response) => {
+  const ids = req.body;
+
+  const songs = await Song.find({
+    _id: {
+      $in: ids,
+    },
+  });
+
+  res.status(200).send(songs);
+});
+
 router.put(
   '/:id',
   [ValidatePassword('FORM_PASSWORD'), ValidateRequestData(formSchema)],
