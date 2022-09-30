@@ -1,8 +1,9 @@
 import { Router, Request, Response } from 'express';
-import argon2 from 'argon2';
 import Song from '@src/models/songs';
 import Tag from '@src/models/tags';
-import { schemaPOST } from '@src/validation/songVlidation';
+import { formSchema } from '@src/validation/songVlidation';
+import ValidatePassword from '@src/middleware/reqPasswordMiddleware';
+import ValidateRequestData from '@src/middleware/validationMiddleware';
 
 const router = Router();
 
@@ -47,48 +48,57 @@ router.get('/:id', async (req: Request, res: Response) => {
   res.status(200).send(songWithTags);
 });
 
-router.post('/', async (req: Request, res: Response) => {
-  const data = req.body;
+router.post(
+  '/',
+  [ValidatePassword('FORM_PASSWORD'), ValidateRequestData(formSchema)],
+  async (req: Request, res: Response) => {
+    const data = req.body;
 
-  if (process.env.FORM_PASSWORD === undefined) {
-    res.status(500).send('Server could not validate password');
-    return;
+    const song = {
+      title: data.title,
+      tags: data.tags,
+      lyrics: data.lyrics,
+      notes: data.notes,
+      credits: data.credits,
+    };
+
+    try {
+      await Song.create(song);
+      res.status(200).send('Success');
+    } catch (e) {
+      res.status(500).json({
+        ok: false,
+        message: 'Database failed to create Song',
+      });
+    }
   }
+);
 
-  const isPwdValid = await argon2.verify(
-    process.env.FORM_PASSWORD,
-    data.password
-  );
+router.put(
+  '/:id',
+  [ValidatePassword('FORM_PASSWORD'), ValidateRequestData(formSchema)],
+  async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const data = req.body;
 
-  if (!isPwdValid) {
-    res.status(401).send('Invalid Password');
-    return;
+    const song = {
+      title: data.title,
+      tags: data.tags,
+      lyrics: data.lyrics,
+      notes: data.notes,
+      credits: data.credits,
+    };
+
+    try {
+      await Song.findOneAndUpdate({ _id: id }, song);
+      res.status(200).send('Success');
+    } catch (e) {
+      res.status(500).json({
+        ok: false,
+        message: `Database failed to update Song: ${id}`,
+      });
+    }
   }
-
-  const song = {
-    title: data.title,
-    tags: data.tags,
-    lyrics: data.lyrics,
-    notes: data.notes,
-    credits: data.credits,
-  };
-
-  const joiResult = schemaPOST.validate(song);
-
-  if (joiResult.error) {
-    res.status(400).send('Invalid data');
-    return;
-  }
-
-  try {
-    await Song.create(song);
-    res.status(200).send('Success');
-  } catch (e) {
-    res.status(500).json({
-      ok: false,
-      message: 'Database failed to create Song',
-    });
-  }
-});
+);
 
 export default router;
