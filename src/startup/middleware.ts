@@ -49,9 +49,10 @@ export default function setupMiddleware(server: Express) {
       store: new MongoDBStore({
         uri: `mongodb+srv://admin:${process.env.DB_PASSWORD}@songbook.s3sbnxb.mongodb.net/?retryWrites=true&w=majority`,
         collection: 'sessions',
+        databaseName: 'songbook',
       }),
-      resave: true,
-      saveUninitialized: true,
+      resave: false,
+      saveUninitialized: false,
     })
   );
 

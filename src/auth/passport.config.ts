@@ -13,20 +13,23 @@ export default function setupPassport() {
         scope: ['profile'],
       },
       function verify(accessToken, refreshToken, profile, cb) {
+        console.log(accessToken);
         console.log(profile);
         return cb(null, {
           id: profile.id,
           name: profile.displayName,
+          accessToken,
+          refreshToken,
         });
       }
     )
   );
 
   passport.serializeUser((user: any, cb) => {
-    cb(null, user.id);
+    cb(null, user);
   });
 
-  passport.deserializeUser(async (id: number, cb) => {
-    return cb(null, { id });
+  passport.deserializeUser(async (user: any, cb) => {
+    return cb(null, user);
   });
 }
