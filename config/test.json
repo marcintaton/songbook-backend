@@ -1,3 +1,4 @@
 {
-  "env": "test"
+  "env": "test",
+  "serverUrl": "http://localhost:3001/"
 }

@@ -1,3 +1,7 @@
 {
-  "env": "dev"
+  "env": "dev",
+  "serverUrl": "http://localhost:3001/",
+  "auth": {
+    "successRedirect": "http://localhost:6001/"
+  }
 }
