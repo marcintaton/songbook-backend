@@ -47,14 +47,14 @@ export default function setupMiddleware(server: Express) {
       cookie: {
         maxAge: 3600000,
         httpOnly: false,
-        secure: config.get('env') !== 'dev',
+        secure: 'auto',
       },
       store: new MongoDBStore({
         uri: `mongodb+srv://admin:${process.env.DB_PASSWORD}@songbook.s3sbnxb.mongodb.net/?retryWrites=true&w=majority`,
         collection: 'sessions',
         databaseName: 'songbook',
       }),
-      resave: false,
+      resave: true,
       saveUninitialized: false,
     })
   );
