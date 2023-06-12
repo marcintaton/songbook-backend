@@ -53,7 +53,7 @@ export default function setupMiddleware(server: Express) {
         domain:
           process.env.NODE_ENV === 'development'
             ? 'localhost'
-            : `songbook-backend-production.up.railway.app`,
+            : `https://oazaspiewnik.netlify.app/`,
       },
       store: new MongoDBStore({
         uri: `mongodb+srv://admin:${process.env.DB_PASSWORD}@songbook.s3sbnxb.mongodb.net/?retryWrites=true&w=majority`,
