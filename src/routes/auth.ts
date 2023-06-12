@@ -31,7 +31,6 @@ router.get('/me', async (req: Request, res: Response) => {
 
 router.get('/logout', async (req: Request, res: Response) => {
   const result = await Session.findOneAndDelete({ id: req.sessionID });
-  console.log(result);
 
   res.status(200).send();
 });
