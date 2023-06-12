@@ -51,9 +51,7 @@ export default function setupMiddleware(server: Express) {
         path: '/',
         sameSite: 'lax',
         domain:
-          process.env.NODE_ENV === 'development'
-            ? 'localhost'
-            : `https://songbook-backend-production.up.railway.app`,
+          process.env.NODE_ENV === 'development' ? 'localhost' : `railway.app`,
       },
       store: new MongoDBStore({
         uri: `mongodb+srv://admin:${process.env.DB_PASSWORD}@songbook.s3sbnxb.mongodb.net/?retryWrites=true&w=majority`,
