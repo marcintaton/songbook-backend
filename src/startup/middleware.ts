@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import { default as connectMongoDBSession } from 'connect-mongodb-session';
 import setupPassport from '@src/auth/passport.config';
+import config from 'config';
 
 export default function setupMiddleware(server: Express) {
   server.use(express.json());
@@ -46,6 +47,7 @@ export default function setupMiddleware(server: Express) {
       cookie: {
         maxAge: 3600000,
         httpOnly: false,
+        secure: config.get('env') !== 'dev',
       },
       store: new MongoDBStore({
         uri: `mongodb+srv://admin:${process.env.DB_PASSWORD}@songbook.s3sbnxb.mongodb.net/?retryWrites=true&w=majority`,
