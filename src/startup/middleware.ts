@@ -45,9 +45,15 @@ export default function setupMiddleware(server: Express) {
     session({
       secret: process.env.SESSION_SECRET || '',
       cookie: {
-        maxAge: 3600000,
+        maxAge: 60 * 60 * 24 * 7 * 52,
         secure: process.env.NODE_ENV !== 'development',
-        httpOnly: false,
+        httpOnly: process.env.NODE_ENV !== 'development',
+        path: '/',
+        sameSite: 'lax',
+        domain:
+          process.env.NODE_ENV === 'development'
+            ? 'localhost'
+            : `songbook-backend-production.up.railway.app`,
       },
       store: new MongoDBStore({
         uri: `mongodb+srv://admin:${process.env.DB_PASSWORD}@songbook.s3sbnxb.mongodb.net/?retryWrites=true&w=majority`,
