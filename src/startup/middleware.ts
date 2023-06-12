@@ -10,10 +10,11 @@ import setupPassport from '@src/auth/passport.config';
 
 export default function setupMiddleware(server: Express) {
   server.use(express.json());
+
   server.use(
     // cors()
     cors({
-      origin: ['https://oazaspiewnik.netlify.app', 'http:`//localhost:6001'],
+      origin: ['https://oazaspiewnik.netlify.app', 'http://localhost:6001'],
       credentials: true,
     })
   );
@@ -22,6 +23,7 @@ export default function setupMiddleware(server: Express) {
       contentSecurityPolicy: false,
     })
   );
+
   server.use(
     contentSecurityPolicy({
       useDefaults: true,

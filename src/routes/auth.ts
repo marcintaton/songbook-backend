@@ -20,11 +20,7 @@ router.get(
 router.get('/me', function (req: Request, res: Response) {
   // Successful authentication, redirect home.
   console.log(req.user);
-  if (req.user) {
-    res.status(200).send();
-  } else {
-    res.status(400).send();
-  }
+  res.status(200).send(req.user);
 });
 
 export default router;
