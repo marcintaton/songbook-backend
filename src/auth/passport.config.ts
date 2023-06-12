@@ -18,8 +18,8 @@ export default function setupPassport() {
         return cb(null, {
           id: profile.id,
           name: profile.displayName,
-          accessToken,
-          refreshToken,
+          // accessToken,
+          // refreshToken,
         });
       }
     )

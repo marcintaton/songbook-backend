@@ -7,7 +7,6 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import { default as connectMongoDBSession } from 'connect-mongodb-session';
 import setupPassport from '@src/auth/passport.config';
-import config from 'config';
 
 export default function setupMiddleware(server: Express) {
   server.use(express.json());
