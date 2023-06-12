@@ -47,6 +47,7 @@ export default function setupMiddleware(server: Express) {
       cookie: {
         maxAge: 3600000,
         secure: process.env.NODE_ENV !== 'development',
+        httpOnly: false,
       },
       store: new MongoDBStore({
         uri: `mongodb+srv://admin:${process.env.DB_PASSWORD}@songbook.s3sbnxb.mongodb.net/?retryWrites=true&w=majority`,
