@@ -44,11 +44,12 @@ export default function setupMiddleware(server: Express) {
   server.use(
     session({
       secret: process.env.SESSION_SECRET || '',
-      // cookie: {
-      //   maxAge: 3600000,
-      //   httpOnly: false,
-      //   secure: false,
-      // },
+      cookie: {
+        maxAge: 3600000,
+        httpOnly: false,
+        secure: false,
+        sameSite: 'none',
+      },
       store: new MongoDBStore({
         uri: `mongodb+srv://admin:${process.env.DB_PASSWORD}@songbook.s3sbnxb.mongodb.net/?retryWrites=true&w=majority`,
         collection: 'sessions',
