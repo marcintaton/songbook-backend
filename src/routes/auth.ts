@@ -21,7 +21,6 @@ router.get(
 router.get('/me', async (req: Request, res: Response) => {
   // Successful authentication, redirect home.
   const user = req.user as IUser;
-  console.log(user);
 
   if (user && user.id) {
     res.status(200).send({ id: user.id, name: user.name });
@@ -31,7 +30,9 @@ router.get('/me', async (req: Request, res: Response) => {
 });
 
 router.get('/logout', async (req: Request, res: Response) => {
-  await Session.findOne({ _id: req.sessionID }).deleteOne();
+  const result = await Session.findOneAndDelete({ id: req.sessionID });
+  console.log(result);
+
   res.status(200).send();
 });
 
