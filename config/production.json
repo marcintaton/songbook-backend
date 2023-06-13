@@ -2,6 +2,6 @@
   "env": "prod",
   "serverUrl": "https://songbook-backend-production.up.railway.app/",
   "auth": {
-    "successRedirect": "https://oazaspiewnik.netlify.app/"
+    "successRedirect": "https://oazaspiewnik.vercel.app/"
   }
 }

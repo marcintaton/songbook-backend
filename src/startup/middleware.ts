@@ -36,7 +36,7 @@ export default function setupMiddleware(server: Express) {
           `https://localhost:*`,
           `'self'`,
           `https://oazaspiewnik.netlify.app/*`,
-          'https://oazaspiewnik.vercel.app/',
+          'https://oazaspiewnik.vercel.app/*',
         ],
       },
     })
@@ -55,7 +55,7 @@ export default function setupMiddleware(server: Express) {
         path: '/',
         sameSite: 'lax',
         domain:
-          process.env.NODE_ENV === 'development' ? 'localhost' : `railway.app`,
+          process.env.NODE_ENV === 'development' ? 'localhost' : `vercel.app`,
       },
       store: new MongoDBStore({
         uri: `mongodb+srv://admin:${process.env.DB_PASSWORD}@songbook.s3sbnxb.mongodb.net/?retryWrites=true&w=majority`,
