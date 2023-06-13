@@ -14,11 +14,7 @@ export default function setupMiddleware(server: Express) {
   server.use(
     // cors()
     cors({
-      origin: [
-        'https://oazaspiewnik.netlify.app',
-        'http://localhost:6001',
-        'https://oazaspiewnik.vercel.app',
-      ],
+      origin: ['https://oazaspiewnik.netlify.app', 'http://localhost:6001'],
       credentials: true,
     })
   );
@@ -36,7 +32,6 @@ export default function setupMiddleware(server: Express) {
           `https://localhost:*`,
           `'self'`,
           `https://oazaspiewnik.netlify.app/*`,
-          'https://oazaspiewnik.vercel.app/*',
         ],
       },
     })
@@ -55,7 +50,7 @@ export default function setupMiddleware(server: Express) {
         path: '/',
         sameSite: 'lax',
         domain:
-          process.env.NODE_ENV === 'development' ? 'localhost' : `vercel.app`,
+          process.env.NODE_ENV === 'development' ? 'localhost' : `.netlify.app`,
       },
       store: new MongoDBStore({
         uri: `mongodb+srv://admin:${process.env.DB_PASSWORD}@songbook.s3sbnxb.mongodb.net/?retryWrites=true&w=majority`,
