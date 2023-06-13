@@ -7,7 +7,6 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import { default as connectMongoDBSession } from 'connect-mongodb-session';
 import setupPassport from '@src/auth/passport.config';
-import { log } from 'console';
 
 export default function setupMiddleware(server: Express) {
   server.use(express.json());
@@ -15,7 +14,11 @@ export default function setupMiddleware(server: Express) {
   server.use(
     // cors()
     cors({
-      origin: ['https://oazaspiewnik.netlify.app', 'http://localhost:6001'],
+      origin: [
+        'https://oazaspiewnik.netlify.app',
+        'http://localhost:6001',
+        'https://oazaspiewnik.vercel.app/',
+      ],
       credentials: true,
     })
   );
@@ -33,6 +36,7 @@ export default function setupMiddleware(server: Express) {
           `https://localhost:*`,
           `'self'`,
           `https://oazaspiewnik.netlify.app/*`,
+          'https://oazaspiewnik.vercel.app/',
         ],
       },
     })
