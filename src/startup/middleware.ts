@@ -17,7 +17,7 @@ export default function setupMiddleware(server: Express) {
       origin: [
         'https://oazaspiewnik.netlify.app',
         'http://localhost:6001',
-        'https://oazaspiewnik.vercel.app/',
+        'https://oazaspiewnik.vercel.app',
       ],
       credentials: true,
     })
